@@ -168,7 +168,7 @@ public final class ColorOsPill extends XposedModule {
         public void onServiceStateChanged(ServiceState ss) {
             if (ss == null) return;
             ColorOsPill.this.state.inService = ss.getState() == ServiceState.STATE_IN_SERVICE;
-            int dnt = ss.getDataNetworkType();
+            int dnt = TechLabel.dataNetworkType(ss);
             int o = ColorOsPill.this.overrideNet;
             ColorOsPill.this.state.mobileTechnology = (o == 3 || o == 4 || o == 5) ? "5G" : ColorOsPill.techLabel(dnt);
             ColorOsPill.this.invalidateAll();
@@ -778,8 +778,8 @@ public final class ColorOsPill extends XposedModule {
                     if ((thiz instanceof View) && ColorOsPill.this.alive()) {
                         View v = (View) thiz;
                         if (ColorOsPill.this.tracked.contains(v)) {
-                            Object[] args = chain.getArgs();
-                            int req = (args != null && args.length > 0 && (args[0] instanceof Integer)) ? (Integer) args[0] : View.VISIBLE;
+                            List<Object> args = chain.getArgs();
+                            int req = (args != null && !args.isEmpty() && (args.get(0) instanceof Integer)) ? (Integer) args.get(0) : View.VISIBLE;
                             if (!BatteryStyle.room && req != View.GONE) {
                                 return chain.proceed(new Object[]{View.GONE});
                             }
@@ -805,11 +805,12 @@ public final class ColorOsPill extends XposedModule {
                         public Object intercept(XposedInterface.Chain chain) throws Throwable {
                             Object res = chain.proceed();
                             Object thiz = chain.getThisObject();
-                            Object[] args = chain.getArgs();
+                            List<Object> args = chain.getArgs();
                             if (args != null) {
-                                for (int i = args.length - 1; i >= 0; i--) {
-                                    if (args[i] instanceof Integer) {
-                                        int c = (Integer) args[i];
+                                for (int i = args.size() - 1; i >= 0; i--) {
+                                    Object arg = args.get(i);
+                                    if (arg instanceof Integer) {
+                                        int c = (Integer) arg;
                                         if (c != 0) {
                                             ColorOsPill.tintColor = c | 0xFF000000;
                                             if (thiz instanceof View) {
@@ -844,7 +845,7 @@ public final class ColorOsPill extends XposedModule {
                     hook(m).intercept(new XposedInterface.Hooker() {
                         @Override
                         public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                            Object[] args = chain.getArgs();
+                            List<Object> args = chain.getArgs();
                             if (args != null) {
                                 for (Object a : args) {
                                     if (a instanceof Float) {
@@ -882,9 +883,9 @@ public final class ColorOsPill extends XposedModule {
                         @Override
                         public Object intercept(XposedInterface.Chain chain) throws Throwable {
                             Object res = chain.proceed();
-                            Object[] args = chain.getArgs();
-                            if (args != null && args.length > 0 && (args[0] instanceof ViewGroup)) {
-                                final ViewGroup vg = (ViewGroup) args[0];
+                            List<Object> args = chain.getArgs();
+                            if (args != null && !args.isEmpty() && (args.get(0) instanceof ViewGroup)) {
+                                final ViewGroup vg = (ViewGroup) args.get(0);
                                 vg.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -946,9 +947,9 @@ public final class ColorOsPill extends XposedModule {
                         hook(m).intercept(new XposedInterface.Hooker() {
                             @Override
                             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                                Object[] args = chain.getArgs();
-                                if (args != null && args.length > 0 && (args[0] instanceof Float)) {
-                                    float f = Motion.clamp((Float) args[0]);
+                                List<Object> args = chain.getArgs();
+                                if (args != null && !args.isEmpty() && (args.get(0) instanceof Float)) {
+                                    float f = Motion.clamp((Float) args.get(0));
                                     if (Math.abs(f - ColorOsPill.shadeT) > 0.004f) {
                                         ColorOsPill.shadeT = f;
                                         ColorOsPill.fracSource = "shade";
@@ -976,12 +977,13 @@ public final class ColorOsPill extends XposedModule {
                         @Override
                         public Object intercept(XposedInterface.Chain chain) throws Throwable {
                             if (ColorOsPill.this.alive()) {
-                                Object[] args = chain.getArgs();
-                                if (args != null && args.length >= 2 && (args[0] instanceof String) && (args[1] instanceof Boolean)) {
-                                    String slot = ((String) args[0]).toLowerCase(Locale.US);
+                                List<Object> args = chain.getArgs();
+                                if (args != null && args.size() >= 2 && (args.get(0) instanceof String) && (args.get(1) instanceof Boolean)) {
+                                    String slot = ((String) args.get(0)).toLowerCase(Locale.US);
                                     if (slot.contains("airplane") || slot.contains("flight") || slot.contains("飞行") || slot.contains("nosim")) {
-                                        args[1] = Boolean.FALSE;
-                                        return chain.proceed(args);
+                                        Object[] next = args.toArray();
+                                        next[1] = Boolean.FALSE;
+                                        return chain.proceed(next);
                                     }
                                 }
                             }

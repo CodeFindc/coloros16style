@@ -89,11 +89,23 @@ final class TechLabel {
                 return;
             }
             this.inService = ss.getState() == ServiceState.STATE_IN_SERVICE;
-            int dnt = ss.getDataNetworkType();
+            int dnt = dataNetworkType(ss);
             if (dnt != 0) {
                 this.netType = dnt;
             }
             refresh(ss, "ss:");
+        }
+    }
+
+    static int dataNetworkType(ServiceState ss) {
+        if (ss == null) {
+            return 0;
+        }
+        try {
+            Object value = ServiceState.class.getMethod("getDataNetworkType").invoke(ss);
+            return value instanceof Integer ? (Integer) value : 0;
+        } catch (Throwable ignored) {
+            return 0;
         }
     }
 
