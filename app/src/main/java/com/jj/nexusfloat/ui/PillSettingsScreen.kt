@@ -231,10 +231,10 @@ fun PillSettingsScreen() {
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
-                            .background(if (selected) AccentBlue.copy(alpha = 0.22f) else CardStroke.copy(alpha = 0.25f))
+                            .background(if (selected) MdThemePrimary.copy(alpha = 0.22f) else CardStroke.copy(alpha = 0.25f))
                             .border(
                                 1.dp,
-                                if (selected) AccentBlue else CardStroke.copy(alpha = 0.5f),
+                                if (selected) MdThemePrimary else CardStroke.copy(alpha = 0.5f),
                                 RoundedCornerShape(12.dp)
                             )
                             .clickable { scenario = idx }
@@ -242,7 +242,7 @@ fun PillSettingsScreen() {
                     ) {
                         Text(
                             text = name,
-                            color = if (selected) AccentBlue else TextSecondary,
+                            color = if (selected) MdThemePrimary else MdThemeOnSurfaceVariant,
                             fontSize = 12.sp,
                             fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
                         )
@@ -255,7 +255,7 @@ fun PillSettingsScreen() {
         PillCard(title = "选择样式") {
             Text(
                 text = "挑一种电量长相，点哪块用哪块。胶囊把两张卡的信号点、制式和数字画进同一枚里。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 12.sp
             )
             val isCapsule = readBool("capsule_dual", false)
@@ -286,7 +286,7 @@ fun PillSettingsScreen() {
 
         // 3. 大小与形状（整颗胶囊 + 各块大小 · 粗细）
         PillFoldCard(title = "大小与形状", initiallyExpanded = true) {
-            Text("整颗胶囊", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("整颗胶囊", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
             PillEditableSliderItem(
                 label = "图标尺寸",
                 value = readInt("size", 24),
@@ -324,7 +324,7 @@ fun PillSettingsScreen() {
             )
 
             HorizontalDivider(color = CardStroke.copy(alpha = 0.5f), modifier = Modifier.padding(vertical = 4.dp))
-            Text("各块大小 · 粗细（改完当帧生效）", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("各块大小 · 粗细（改完当帧生效）", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
 
             PillEditableSliderItem(
                 label = "电量百分比 · 大小",
@@ -384,7 +384,7 @@ fun PillSettingsScreen() {
             )
             Text(
                 text = "只在开了「5G-Advanced 显示成 5GA」时有用。留 0 是跟 5G 一起缩放；拖了之后 5GA 按自己的比例走。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
             PillEditableSliderItem(
@@ -440,7 +440,7 @@ fun PillSettingsScreen() {
                 onCheckedChange = { writeVal("colour", if (it) 1 else 0) }
             )
             HorizontalDivider(color = CardStroke.copy(alpha = 0.5f), modifier = Modifier.padding(vertical = 4.dp))
-            Text("充电色（两档）", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("充电色（两档）", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
             PillColorPickerRow(
                 activity = activity,
                 label = "普通充电",
@@ -524,7 +524,7 @@ fun PillSettingsScreen() {
 
         // 6. 颜色（状态色 + 省电快捷色 + 8 信号点分色 + 浓淡与透明度）
         PillFoldCard(title = "颜色") {
-            Text("状态色（点一下改）", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("状态色（点一下改）", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
             PillColorPickerRow(
                 activity = activity,
                 label = "低电色",
@@ -581,7 +581,7 @@ fun PillSettingsScreen() {
             }
             Text(
                 text = "点上面的色块开取色器；这一排是省电模式色的常用快捷色。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
 
@@ -614,12 +614,12 @@ fun PillSettingsScreen() {
             )
             Text(
                 text = "两格都留空（跟随系统）＝完全照抄系统染色；只填一个＝那个背景用你定的色。系统判背景明暗时会自动在两色之间挑。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
 
             HorizontalDivider(color = CardStroke.copy(alpha = 0.5f), modifier = Modifier.padding(vertical = 4.dp))
-            Text("信号点分色（8 点独立染色）", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("信号点分色（8 点独立染色）", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
 
             PillColorPickerRow(activity, "信号点 1（最左）", "dot_c1", readInt("dot_c1", 0), 0xFF0A84FF.toInt(), false) { writeVal("dot_c1", it) }
             PillColorPickerRow(activity, "信号点 2", "dot_c2", readInt("dot_c2", 0), 0xFF5E5CE6.toInt(), false) { writeVal("dot_c2", it) }
@@ -639,12 +639,12 @@ fun PillSettingsScreen() {
             PillColorPickerRow(activity, "卡2 点 4（最右）", "dot_c8", readInt("dot_c8", 0), 0xFFFF9F0A.toInt(), false) { writeVal("dot_c8", it) }
             Text(
                 text = "下面四个只在「双卡两行信号点」开着时画第二行，也要先打开上面的「信号点分色」。\n优先级：省电 > 性能 > 充电 > 低电 > 常规；关掉「彩色」就全跟随系统染色。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
 
             HorizontalDivider(color = CardStroke.copy(alpha = 0.5f), modifier = Modifier.padding(vertical = 4.dp))
-            Text("浓淡与透明度", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("浓淡与透明度", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
 
             PillSwitchItem(
                 title = "不透明度跟随系统图标",
@@ -708,7 +708,7 @@ fun PillSettingsScreen() {
         PillFoldCard(title = "位置微调") {
             Text(
                 text = "px / 百分比，改完当帧生效（点右侧数值可直接输入精确数字）",
-                color = AccentBlue,
+                color = MdThemePrimary,
                 fontSize = 12.sp
             )
             PillEditableSliderItem("整体位置 · 左右", readInt("pill_dx", 0), -1440..1440, "px") { writeVal("pill_dx", it) }
@@ -727,7 +727,7 @@ fun PillSettingsScreen() {
             PillEditableSliderItem("充电闪电 · 纵向（50 居中，越大越往下）", readInt("bolt_dy", 88), 0..170, "%") { writeVal("bolt_dy", it) }
             Text(
                 text = "横竖屏各记一份：转屏后压到别的图标或撞到摄像头，单独调横屏那两条。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
         }
@@ -759,7 +759,7 @@ fun PillSettingsScreen() {
             )
 
             HorizontalDivider(color = CardStroke.copy(alpha = 0.5f), modifier = Modifier.padding(vertical = 4.dp))
-            Text("防烧屏（微动）", color = AccentBlue, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
+            Text("防烧屏（微动）", color = MdThemePrimary, fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold)
 
             PillSwitchItem(
                 title = "防烧屏微动（每隔一会儿把胶囊挪 1px，肉眼看不出来）",
@@ -793,7 +793,7 @@ fun PillSettingsScreen() {
             }
             Text(
                 text = "OLED 上静止的图标会烧出残影。开着就每分钟在 3×3 的格子里挪一格（九分钟一圈），不会挪出容器，下拉动画期间不挪。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
         }
@@ -802,7 +802,7 @@ fun PillSettingsScreen() {
         PillFoldCard(title = "备份与高级") {
             Text(
                 text = "把当前所有调过的参数写成纯文本（key=value）。导入时只认列出来的键，没出现的键保持本机现在的值。",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
             fun buildStyleExportText(): String {
@@ -935,7 +935,7 @@ fun PillSettingsScreen() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("SystemUI 胶囊实时诊断回报", color = TextPrimary, fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
+                Text("SystemUI 胶囊实时诊断回报", color = MdThemeOnSurface, fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     TextButton(onClick = {
                         broadcastAll(diag = true)
@@ -955,7 +955,7 @@ fun PillSettingsScreen() {
             }
             Text(
                 text = reportText.ifEmpty { "（尚未收到 SystemUI 回报，确认 LSPosed 已勾选系统界面并重启 SystemUI）" },
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.sp,
                 fontFamily = FontFamily.Monospace
             )
@@ -979,7 +979,7 @@ private fun PillCard(
     ) {
         Text(
             text = title,
-            color = TextPrimary,
+            color = MdThemeOnSurface,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
@@ -1011,13 +1011,13 @@ private fun PillFoldCard(
         ) {
             Text(
                 text = title,
-                color = TextPrimary,
+                color = MdThemeOnSurface,
                 fontSize = 15.5.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = if (expanded) "－" else "＋",
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -1045,10 +1045,10 @@ private fun StyleTileItem(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(18.dp))
-            .background(if (selected) AccentBlue.copy(alpha = 0.14f) else CardStroke.copy(alpha = 0.18f))
+            .background(if (selected) MdThemePrimary.copy(alpha = 0.14f) else CardStroke.copy(alpha = 0.18f))
             .border(
                 width = if (selected) 1.5.dp else 1.dp,
-                color = if (selected) AccentBlue else CardStroke,
+                color = if (selected) MdThemePrimary else CardStroke,
                 shape = RoundedCornerShape(18.dp)
             )
             .clickable(onClick = onClick)
@@ -1069,13 +1069,13 @@ private fun StyleTileItem(
         )
         Text(
             text = title,
-            color = if (selected) AccentBlue else TextPrimary,
+            color = if (selected) MdThemePrimary else MdThemeOnSurface,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = subtitle,
-            color = TextSecondary,
+            color = MdThemeOnSurfaceVariant,
             fontSize = 11.5.sp
         )
     }
@@ -1102,7 +1102,7 @@ private fun PillSwitchItem(
         ) {
             Text(
                 text = title,
-                color = TextPrimary,
+                color = MdThemeOnSurface,
                 fontSize = 14.sp,
                 modifier = Modifier.weight(1f).padding(end = 8.dp)
             )
@@ -1114,7 +1114,7 @@ private fun PillSwitchItem(
         if (!subtitle.isNullOrEmpty()) {
             Text(
                 text = subtitle,
-                color = TextSecondary,
+                color = MdThemeOnSurfaceVariant,
                 fontSize = 11.5.sp
             )
         }
@@ -1171,10 +1171,10 @@ private fun PillEditableSliderItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = label, color = TextPrimary, fontSize = 13.5.sp, modifier = Modifier.weight(1f))
+            Text(text = label, color = MdThemeOnSurface, fontSize = 13.5.sp, modifier = Modifier.weight(1f))
             Text(
                 text = "$value$unit ✎",
-                color = AccentBlue,
+                color = MdThemePrimary,
                 fontSize = 13.sp,
                 fontFamily = FontFamily.Monospace,
                 modifier = Modifier
@@ -1205,7 +1205,7 @@ private fun PillSegmentedRow(
         modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Text(text = "$label：${options.getOrElse(selectedIndex) { "" }}", color = TextPrimary, fontSize = 13.5.sp)
+        Text(text = "$label：${options.getOrElse(selectedIndex) { "" }}", color = MdThemeOnSurface, fontSize = 13.5.sp)
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -1216,15 +1216,15 @@ private fun PillSegmentedRow(
                     modifier = Modifier
                         .weight(1f)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(if (active) AccentBlue.copy(alpha = 0.22f) else CardStroke.copy(alpha = 0.2f))
-                        .border(1.dp, if (active) AccentBlue else CardStroke, RoundedCornerShape(12.dp))
+                        .background(if (active) MdThemePrimary.copy(alpha = 0.22f) else CardStroke.copy(alpha = 0.2f))
+                        .border(1.dp, if (active) MdThemePrimary else CardStroke, RoundedCornerShape(12.dp))
                         .clickable { onSelect(idx) }
                         .padding(vertical = 8.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = opt,
-                        color = if (active) AccentBlue else TextSecondary,
+                        color = if (active) MdThemePrimary else MdThemeOnSurfaceVariant,
                         fontSize = 12.5.sp,
                         fontWeight = if (active) FontWeight.Bold else FontWeight.Normal,
                         textAlign = TextAlign.Center
@@ -1268,8 +1268,8 @@ private fun PillColorPickerRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = "$label（点一下改）", color = TextPrimary, fontSize = 13.5.sp)
-            Text(text = valueLabel, color = TextSecondary, fontSize = 11.5.sp, fontFamily = FontFamily.Monospace)
+            Text(text = "$label（点一下改）", color = MdThemeOnSurface, fontSize = 13.5.sp)
+            Text(text = valueLabel, color = MdThemeOnSurfaceVariant, fontSize = 11.5.sp, fontFamily = FontFamily.Monospace)
         }
         Box(
             modifier = Modifier
